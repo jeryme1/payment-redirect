@@ -1,38 +1,17 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>Redirecting to Payment Gateway...</title>
-  <meta charset="UTF-8">
-</head>
-<body onload="submitForm()" style="font-family:sans-serif; text-align:center; padding:40px;">
-  <h2>Redirecting to Payment Gateway...</h2>
-  <p>Please wait. Do not refresh this page.</p>
-
-  <form id="tpgForm" method="POST" action="https://your-tpg-api.com/TaylorsPay/Client/authToken">
-    <input type="hidden" name="token" id="token" />
-    <input type="hidden" name="refId" id="refId" />
-    <input type="hidden" name="amount" id="amount" />
-    <input type="hidden" name="returnUrl" id="returnUrl" />
-  </form>
-
-  <script>
-    function getQueryParam(name) {
+  <body>
+    <form name="taylorspay" method="POST" action="https://your-tpg-url.com/TaylorsPay/Client/authToken">
+      <input type="hidden" name="token" id="token" value="" />
+    </form>
+    <script>
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
-    }
-
-    function submitForm() {
-      document.getElementById("token").value = getQueryParam("token");
-      document.getElementById("refId").value = getQueryParam("refId");
-      document.getElementById("amount").value = getQueryParam("amount");
-
-      const returnUrl = getQueryParam("returnUrl");
-      if (returnUrl) {
-        document.getElementById("returnUrl").value = returnUrl;
+      const token = urlParams.get('token');
+      if (token) {
+        document.getElementById('token').value = token;
+        document.forms['taylorspay'].submit();
+      } else {
+        document.body.innerHTML = "<h2>Missing token.</h2>";
       }
-
-      document.getElementById("tpgForm").submit();
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
